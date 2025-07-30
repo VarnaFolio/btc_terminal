@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BTC Terminal</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>BTC Terminal 3.0</h1>
+  <input type="text" id="pair" placeholder="Пример: BTC/USDT">
+  <button onclick="analyze()">Анализирай</button>
+  <div id="result"></div>
+
+  <script>
+    function analyze() {
+      const pair = document.getElementById('pair').value;
+      fetch(`/analyze?pair=${pair}`)
+        .then(res => res.json())
+        .then(d => {
+          document.getElementById('result').innerHTML = `
+            <table>
+              <tr><th>Индикатор</th><th>Стойност</th></tr>
+              <tr><td>RSI</td><td>${d.RSI}</td></tr>
+              <tr><td>MACD</td><td>${d.MACD}</td></tr>
+              <tr><td>ADX</td><td>${d.ADX}</td></tr>
+            </table>
+            <div class="signal">📊 Общ сигнал: <strong>${d.Signal}</strong></div>
+          `;
+        });
+    }
+  </script>
+</body>
+</html>
